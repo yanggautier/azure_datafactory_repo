@@ -1,0 +1,63 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "gauthierdatafactory"
+		},
+		"datalake_0529_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'datalake_0529'"
+		},
+		"dataworkspace0529_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'dataworkspace0529'"
+		},
+		"datalake_0529_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://datalake0529.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "gauthierdatafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"datalake_0529_accountKey": {
+						"value": "[parameters('datalake_0529_accountKey')]"
+					},
+					"dataworkspace0529_connectionString": {
+						"value": "[parameters('dataworkspace0529_connectionString')]"
+					},
+					"datalake_0529_properties_typeProperties_url": {
+						"value": "[parameters('datalake_0529_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
